@@ -143,19 +143,6 @@ services:
     networks:
       - olympiade_network
 
-  success-emoji:
-    build:
-      context: .
-      dockerfile: services/success-emoji/Dockerfile
-    container_name: success-emoji
-    restart: always
-    ports:
-      - "${SUCCESS_EMOJI_PORT:-3002}:3002"
-    environment:
-      PORT: 3002
-    networks:
-      - olympiade_network
-
   edit-data:
     build:
       context: .

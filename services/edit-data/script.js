@@ -17,18 +17,22 @@ function checkAuthentication() {
     }
 }
 
+// Basis-Pfad für API-Aufrufe (für Reverse-Proxy-Kompatibilität)
+// Automatisch den Basispfad aus der aktuellen URL ermitteln
+const BASE_PATH = window.location.pathname.replace(/\/$/, '');
+
 // Datenmanagement (ohne Demo-Modus, mit echtem Löschen)
 class DataManager {
     constructor() {
         this.data = [];
         this.currentEditIndex = -1;
-        this.dataFile = '/data/results.json';
+        this.dataFile = 'data/results.json';
     }
 
     async loadData() {
         try {
             const token = sessionStorage.getItem('authToken') || '';
-            const response = await fetch(this.dataFile + '?t=' + Date.now(), {
+            const response = await fetch(`${BASE_PATH}/${this.dataFile}` + '?t=' + Date.now(), {
                 headers: {
                     'Authorization': token
                 }
@@ -78,7 +82,7 @@ class DataManager {
 
     async saveToServer() {
         try {
-            const response = await fetch('/api/save', {
+            const response = await fetch(`${BASE_PATH}/api/save`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -180,7 +184,7 @@ async function handleLogin(e) {
     const username = document.getElementById('username').value;
     const password = document.getElementById('password').value;
     try {
-        const res = await fetch('/api/login', {
+        const res = await fetch(`${BASE_PATH}/api/login`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ username, password })

@@ -45,9 +45,7 @@ echo ""
 SERVICES=(
     "dashboard"
     "edit-data"
-    "edit-emoji"
     "success-event"
-    "success-emoji"
     "ip-logging"
 )
 
