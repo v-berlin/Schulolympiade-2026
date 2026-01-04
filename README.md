@@ -26,7 +26,6 @@ schulolympiade/
 ├── services/                # Alle Node.js Microservices
 │   ├── dashboard/           # Haupt-Dashboard (Port 3000)
 │   ├── edit-data/           # Admin: Ergebnisse bearbeiten (Port 3003)
-│   ├── edit-emoji/          # Admin: Emojis bearbeiten (Port 3004)
 │   ├── success-event/       # Erfolgsseite nach Event-Eintrag (Port 3001)
 │   ├── success-emoji/       # Erfolgsseite nach Emoji-Eintrag (Port 3002)
 │   ├── ip-logging/          # IP-Logging + Redirect zu n8n (Port 3005)
@@ -67,7 +66,6 @@ Vollständige Liste siehe `.env.example`.
 | Success Event | 3001 | Bestätigungsseite nach Event-Eintrag |
 | Success Emoji | 3002 | Bestätigungsseite nach Emoji-Eintrag |
 | Edit Data | 3003 | Admin-Panel für Ergebnisse |
-| Edit Emoji | 3004 | Admin-Panel für Emoji-Mappings |
 | IP Logging | 3005 | IP-Logging + Redirect zu n8n Formular |
 | n8n | 5678 | Workflow-Automatisierung |
 | phpMyAdmin | 8080 | Datenbank-Verwaltung |
@@ -81,9 +79,7 @@ Vollständige Liste siehe `.env.example`.
 |------|------|
 | `/dashboard` | Dashboard |
 | `/ergebnis` | IP-Logging → n8n Event-Formular |
-| `/emoji` | n8n Emoji-Formular |
 | `/edit-ergebnis` | Admin: Ergebnisse bearbeiten |
-| `/edit-emoji` | Admin: Emojis bearbeiten |
 
 ## 📜 Scripts
 

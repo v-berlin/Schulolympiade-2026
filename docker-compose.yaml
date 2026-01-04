@@ -179,29 +179,6 @@ services:
     networks:
       - olympiade_network
 
-  edit-emoji:
-    build:
-      context: .
-      dockerfile: services/edit-emoji/Dockerfile
-    container_name: edit-emoji
-    restart: always
-    ports:
-      - "${EDIT_EMOJI_PORT:-3004}:3004"
-    environment:
-      PORT: 3004
-      MYSQL_HOST: mysql
-      MYSQL_PORT: 3306
-      MYSQL_USER: ${MYSQL_USER}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-      MYSQL_DATABASE: ${MYSQL_DATABASE}
-      ADMIN_USER: ${ADMIN_USER}
-      ADMIN_PASSWORD: ${ADMIN_PASSWORD}
-    depends_on:
-      mysql:
-        condition: service_healthy
-    networks:
-      - olympiade_network
-
   ip-logging:
     build:
       context: .
@@ -232,12 +209,9 @@ services:
       - "${NGINX_PORT:-80}:80"
     volumes:
       - ./nginx/conf.d:/etc/nginx/conf.d:ro
-    environment:
-      N8N_EMOJI_WEBHOOK_ID: ${N8N_EMOJI_WEBHOOK_ID}
     depends_on:
       - dashboard
       - edit-data
-      - edit-emoji
       - ip-logging
       - n8n
     networks:

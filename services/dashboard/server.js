@@ -155,10 +155,16 @@ app.get('/api/recent', async (req, res) => {
     }
 });
 
-app.get('/api/emoji-map', async (req, res) => {
+app.get('/api/emoji-map', (req, res) => {
     try {
-        const [rows] = await pool.execute('SELECT emoji, trigger_word FROM emoji_mappings');
-        res.json(rows);
+        const emojiMapPath = path.join(__dirname, 'public', 'data', 'emojiMap.json');
+        const emojiMap = JSON.parse(fs.readFileSync(emojiMapPath, 'utf8'));
+        // Convert to match expected format: { emoji, trigger_word }
+        const result = emojiMap.map(item => ({
+            emoji: item.Emoji,
+            trigger_word: item.Trigger
+        }));
+        res.json(result);
     } catch (error) {
         console.error('Fehler beim Abrufen der Emoji-Map:', error);
         res.json([]);

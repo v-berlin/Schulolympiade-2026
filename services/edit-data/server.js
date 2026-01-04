@@ -1,7 +1,7 @@
 // EDIT DATA DASHBOARD SERVER - Angepasst für MySQL
 const express = require('express');
 const crypto = require('crypto');
-const { pool, testConnection } = require('../shared/db');
+const { pool, testConnection } = require('./shared/db');
 
 const app = express();
 const PORT = 3003;
