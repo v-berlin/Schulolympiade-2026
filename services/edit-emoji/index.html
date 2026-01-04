@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emoji Mapping Verwaltung</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="./assets/logo.png" type="image/x-icon">
+</head>
+
+<body>
+    <div class="background-pattern"></div>
+
+    <!-- Login Section -->
+    <div id="loginSection" class="login-container">
+        <div class="glass-card login-card">
+            <h1 class="login-title">Emoji Mapping</h1>
+            <p class="login-subtitle">Verwalte die Emoji-Trigger</p>
+
+            <form id="loginForm">
+                <div class="form-group">
+                    <input type="text" id="username" class="form-input" placeholder="Benutzername" required>
+                </div>
+                <div class="form-group">
+                    <input type="password" id="password" class="form-input" placeholder="Passwort" required>
+                </div>
+                <button type="submit" class="btn btn-primary">
+                    <span id="loginText">Anmelden</span>
+                    <div id="loginSpinner" class="loading" style="display: none;">
+                        <div class="spinner"></div>
+                        Anmeldung...
+                    </div>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Dashboard Section -->
+    <div id="dashboardSection" class="dashboard">
+        <div class="container">
+            <div class="header">
+                <h1>Emoji Mapping</h1>
+                <div class="user-info">
+                    <div class="avatar">D</div>
+                    <span>DauView25</span>
+                    <button class="btn btn-danger" onclick="logout()">Abmelden</button>
+                </div>
+            </div>
+            <div class="glass-card data-section">
+                <h2 class="section-title">
+                    😃 Emoji-Trigger
+                    <button class="btn btn-secondary" onclick="reloadData()"
+                        style="margin-left: auto; padding: 8px 16px; font-size: 14px;">
+                        🔄 Neu laden
+                    </button>
+                </h2>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Emoji</th>
+                            <th>Trigger</th>
+                            <th>Aktionen</th>
+                        </tr>
+                    </thead>
+                    <tbody id="dataTableBody">
+                        <!-- Data will be inserted here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Modal -->
+    <div id="editModal" class="modal">
+        <div class="glass-card modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Mapping bearbeiten</h3>
+                <button class="close-btn" onclick="closeModal()">&times;</button>
+            </div>
+            <form id="editForm">
+                <div class="form-grid">
+                    <div class="form-group form-group-full">
+                        <input type="text" id="editEmoji" class="form-input" placeholder="Emoji" required>
+                    </div>
+                    <div class="form-group form-group-full">
+                        <input type="text" id="editTrigger" class="form-input" placeholder="Trigger" required>
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal()">Abbruch</button>
+                    <button type="submit" class="btn btn-primary">Speichern</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+
+</html>

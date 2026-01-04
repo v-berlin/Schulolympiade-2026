@@ -1,0 +1,28 @@
+# Environment
+.env
+
+# Data and backups
+data/backups/*
+!data/backups/.gitkeep
+
+# Logs
+*.log
+logs/
+
+# Node
+node_modules/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Docker volumes (if mounted locally)
+mysql_data/
+postgres_data/
+n8n_data/

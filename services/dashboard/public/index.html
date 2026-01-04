@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Schulolympiade Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="./assets/logo.png" type="image/x-icon">
+</head>
+<body>
+    <div class="container">
+        <main class="main">
+            <header class="header">
+                <div class="header-titles">
+                    <h1 class="header-title" style="display: flex; align-items: center; gap: 22px;">
+                        <span class="logo-combo">
+                            <img src="./assets/ong.png" alt="ONG Logo" class="ong-logo">
+                            <span class="logo-divider"></span>
+                            <img src="./assets/logo.png" alt="BEGA Logo" class="bega-logo">
+                        </span>
+                        <span>Live Dashboard Schulolympiade 2025</span>
+                    </h1>
+                </div>
+                <div class="last-update" id="lastUpdate">Zuletzt aktualisiert: --:--</div>
+            </header>
+
+            <div class="stats-container">
+                <div class="stat-card" style="--gradient: var(--gradient-blue);">
+                    <div class="stat-icon">👥</div>
+                    <div class="stat-value" id="totalTeams">--</div>
+                    <div class="stat-label">Klassen</div>
+                    <div class="stat-trend trend-up">Teilnehmend</div>
+                </div>
+                
+                <div class="stat-card" style="--gradient: var(--gradient-green);">
+                    <div class="stat-icon">🏃</div>
+                    <div class="stat-value" id="totalEvents">--</div>
+                    <div class="stat-label">Wettbewerbe</div>
+                    <div class="stat-trend trend-up">Abgeschlossen</div>
+                </div>
+                
+                <div class="stat-card" style="--gradient: var(--gradient-orange);">
+                    <div class="stat-icon">🎯</div>
+                    <div class="stat-value" id="totalDisciplines">--</div>
+                    <div class="stat-label">Disziplinen</div>
+                    <div class="stat-trend trend-up">Insgesamt</div>
+                </div>
+                
+                <div class="stat-card" style="--gradient: var(--gradient-red);">
+                    <div class="stat-icon">⭐</div>
+                    <div class="stat-value" id="avgPoints">--</div>
+                    <div class="stat-label">Punkte</div>
+                    <div class="stat-trend trend-up">Durchschnitt nach Klassen</div>
+                </div>
+            </div>
+
+            <div class="content-layout">
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <h2 class="chart-title">📊 Ranking | Jahrgang</h2>
+                    </div>
+                    <div class="chart-wrapper">
+                        <div class="bar-chart" id="barChart" style="display: none;"></div>
+                    </div>
+                </div>
+
+                <div class="leaderboard-card">
+                    <h2 class="leaderboard-title">🏆 Rangliste | Top 10</h2>
+                    <div class="leaderboard-list" id="leaderboardContent">
+                    </div>
+                </div>
+
+                <div class="recent-card">
+                    <h2 class="recent-title">⚡ Aktuelle Ergebnisse</h2>
+                    <div class="recent-list" id="recentResults">
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
