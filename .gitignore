@@ -1,5 +1,6 @@
 # Environment
 .env
+.n8n-imported
 
 # Data and backups
 data/backups/*

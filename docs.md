@@ -57,15 +57,11 @@ Ein vollständiges Dashboard- und Verwaltungssystem für die Schulolympiade des 
 git clone <repository-url>
 cd Schulolympiade-2026
 
-# 2. Konfiguration erstellen
-cp .env.example .env
-
-# 3. .env bearbeiten und Werte anpassen
-nano .env  # Wichtig: SERVER_HOST, Passwörter ändern!
-
-# 4. Deployment starten
-./scripts/deploy.sh --build
+# 2. Installation + Start (erstellt .env bei Bedarf)
+./scripts/install.sh --build
 ```
+
+Wenn `.env` neu erstellt wurde, bitte mindestens `SERVER_HOST` prüfen/anpassen und die Passwörter notieren.
 
 Nach dem Start sind die Services unter den konfigurierten Ports erreichbar (siehe [Services](#-services)).
 
@@ -195,6 +191,7 @@ Kopiere `.env.example` nach `.env` und passe die Werte an:
 | `MYSQL_DATABASE` | Datenbankname | `schulolympiade` |
 | `MYSQL_USER` | MySQL Benutzer | `olympiade_user` |
 | `MYSQL_PASSWORD` | MySQL Passwort | `olympiade2025` |
+| `MYSQL_HOST` | Interner MySQL Hostname | `mysql` |
 | `MYSQL_PORT` | Interner Port | `3306` |
 | `MYSQL_EXTERNAL_PORT` | Externer Port | `3308` |
 
@@ -215,6 +212,7 @@ Kopiere `.env.example` nach `.env` und passe die Werte an:
 | `N8N_POSTGRES_USER` | PostgreSQL User für n8n | `n8n` |
 | `N8N_POSTGRES_PASSWORD` | PostgreSQL Passwort | `n8nSecure2025` |
 | `N8N_POSTGRES_DB` | PostgreSQL Datenbank | `n8n` |
+| `N8N_ENCRYPTION_KEY` | Verschlüsselungsschlüssel für n8n Credentials | *(leer = wird generiert)* |
 | `N8N_EVENT_WEBHOOK_ID` | Webhook-ID für Formulare | UUID |
 
 ### Service-Ports
@@ -480,6 +478,29 @@ Die Emoji-Mappings sind in `services/dashboard/public/data/emojiMap.json` defini
 
 Alle Skripte befinden sich im `scripts/` Verzeichnis und müssen ausführbar sein (`chmod +x scripts/*.sh`).
 
+### install.sh - Setup & Start
+
+```bash
+# Erstinstallation inkl. .env-Erstellung & n8n Import
+./scripts/install.sh --build
+
+# Ohne n8n Import starten
+./scripts/install.sh --skip-n8n
+
+# n8n Import erzwingen (wenn .env geändert wurde)
+./scripts/install.sh --force-n8n
+```
+
+### uninstall.sh - Deinstallation
+
+```bash
+# Container stoppen (Daten bleiben erhalten)
+./scripts/uninstall.sh
+
+# Alles entfernen (inkl. Volumes/Daten)
+./scripts/uninstall.sh --purge
+```
+
 ### deploy.sh - Hauptverwaltung
 
 ```bash
@@ -497,6 +518,19 @@ Alle Skripte befinden sich im `scripts/` Verzeichnis und müssen ausführbar sei
 
 # Status aller Container
 ./scripts/deploy.sh --status
+
+# n8n Workflow + Credentials neu importieren
+./scripts/deploy.sh --force-n8n
+```
+
+### n8n-sync.sh - Workflow & Credentials Import
+
+```bash
+# Einmaliger Import anhand der .env
+./scripts/n8n-sync.sh
+
+# Import erzwingen (wenn z.B. .env geändert wurde)
+./scripts/n8n-sync.sh --force
 ```
 
 ### build.sh - Docker Images
@@ -556,12 +590,8 @@ scp schulolympiade-deploy-*.tar.gz user@newserver:~/
 tar -xzf schulolympiade-deploy-*.tar.gz
 cd schulolympiade
 
-# Konfiguration
-cp .env.example .env
-nano .env  # SERVER_HOST, Passwörter anpassen!
-
-# Starten
-./scripts/deploy.sh --build
+# Setup & Start
+./scripts/install.sh --build
 ```
 
 ### 4. n8n Workflows importieren
@@ -574,6 +604,15 @@ Siehe [n8n Workflows](#-n8n-workflows).
 
 n8n ist die Workflow-Automatisierungs-Plattform für die Ergebnis-Eingabe.
 
+### Automatischer Import (empfohlen)
+
+Beim `./scripts/install.sh` werden Workflow + MySQL Credentials automatisch anhand der `.env` importiert.
+Falls sich `.env` ändert, kann der Import erneut ausgeführt werden:
+
+```bash
+./scripts/n8n-sync.sh --force
+```
+
 ### Setup nach erstem Start
 
 1. **n8n öffnen**: `http://<SERVER_HOST>:5678`
@@ -582,23 +621,12 @@ n8n ist die Workflow-Automatisierungs-Plattform für die Ergebnis-Eingabe.
    - User: `N8N_BASIC_AUTH_USER`
    - Password: `N8N_BASIC_AUTH_PASSWORD`
 
-3. **Workflow importieren**:
+3. **Workflow/Secrets prüfen** (nur falls Auto-Import nicht genutzt):
    - Menü → Import from File
    - Datei: `n8n-workflows/Add_Event_Schulolympiade_SQL.json`
+   - MySQL Credentials gemäß `.env` anlegen
 
-4. **MySQL Credentials konfigurieren**:
-   - Settings → Credentials → Add Credential → MySQL
-   - **Host**: `mysql` (Docker-interner Hostname!)
-   - **Port**: `3306`
-   - **Database**: aus `.env` (`MYSQL_DATABASE`)
-   - **User**: aus `.env` (`MYSQL_USER`)
-   - **Password**: aus `.env` (`MYSQL_PASSWORD`)
-
-5. **Webhook-URL aktualisieren** (falls nötig):
-   - Webhook-ID in Workflow notieren
-   - In `.env` die `N8N_EVENT_WEBHOOK_ID` entsprechend setzen
-
-6. **Workflow aktivieren** (Toggle oben rechts)
+4. **Workflow aktivieren** (Toggle oben rechts)
 
 ### Workflow-Funktion
 

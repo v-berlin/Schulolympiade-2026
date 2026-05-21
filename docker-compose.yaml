@@ -32,7 +32,7 @@ services:
     container_name: mysql_backup
     restart: always
     environment:
-      MYSQL_HOST: mysql
+      MYSQL_HOST: ${MYSQL_HOST:-mysql}
       MYSQL_PORT: 3306
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASS: ${MYSQL_PASSWORD}
@@ -94,6 +94,7 @@ services:
       N8N_BASIC_AUTH_USER: ${N8N_BASIC_AUTH_USER}
       N8N_BASIC_AUTH_PASSWORD: ${N8N_BASIC_AUTH_PASSWORD}
       N8N_SECURE_COOKIE: false
+      N8N_ENCRYPTION_KEY: ${N8N_ENCRYPTION_KEY}
     volumes:
       - n8n_data:/home/node/.n8n
     depends_on:
@@ -116,7 +117,7 @@ services:
       - "${DASHBOARD_PORT:-3000}:3000"
     environment:
       PORT: 3000
-      MYSQL_HOST: mysql
+      MYSQL_HOST: ${MYSQL_HOST:-mysql}
       MYSQL_PORT: 3306
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
@@ -153,7 +154,7 @@ services:
       - "${EDIT_DATA_PORT:-3003}:3003"
     environment:
       PORT: 3003
-      MYSQL_HOST: mysql
+      MYSQL_HOST: ${MYSQL_HOST:-mysql}
       MYSQL_PORT: 3306
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
