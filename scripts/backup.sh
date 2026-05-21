@@ -5,18 +5,14 @@
 set -e
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-PROJECT_DIR="$(dirname "$SCRIPT_DIR")"
+source "$SCRIPT_DIR/lib.sh"
+
 OUTPUT_DIR="${1:-$PROJECT_DIR/data/backups}"
 TIMESTAMP=$(date +%Y%m%d_%H%M%S)
 
 cd "$PROJECT_DIR"
 
-if [ ! -f ".env" ]; then
-    echo "❌ Error: .env file not found!"
-    exit 1
-fi
-
-source .env
+load_env
 
 mkdir -p "$OUTPUT_DIR"
 
