@@ -14,7 +14,7 @@ BUILD=false
 IMPORT_N8N=false
 FORCE_N8N=false
 while [[ $# -gt 0 ]]; do
-   case $1 in
+    case $1 in
        --build)
            BUILD=true
            shift
@@ -32,20 +32,20 @@ while [[ $# -gt 0 ]]; do
            echo "🛑 Stopping all services..."
            docker compose down
            exit 0
-            ;;
-        --logs)
-            docker compose logs -f
-            exit 0
-            ;;
-        --status)
-            docker compose ps
-            exit 0
-            ;;
-        *)
-            echo "Unknown option: $1"
-            echo "Usage: ./deploy.sh [--build] [--import-n8n] [--force-n8n] [--down] [--logs] [--status]"
-            exit 1
-            ;;
+           ;;
+       --logs)
+           docker compose logs -f
+           exit 0
+           ;;
+       --status)
+           docker compose ps
+           exit 0
+           ;;
+       *)
+           echo "Unknown option: $1"
+           echo "Usage: ./deploy.sh [--build] [--import-n8n] [--force-n8n] [--down] [--logs] [--status]"
+           exit 1
+           ;;
     esac
 done
 

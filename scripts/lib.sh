@@ -51,9 +51,14 @@ get_env_value() {
 
 generate_hex() {
     local length="${1:-32}"
-    python - <<PY
+    python - "$length" <<'PY'
 import secrets
-print(secrets.token_hex(${length} // 2))
+import sys
+
+length = int(sys.argv[1])
+if length <= 0:
+    raise SystemExit("Invalid length")
+print(secrets.token_hex(length // 2))
 PY
 }
 

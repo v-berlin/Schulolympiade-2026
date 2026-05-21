@@ -53,10 +53,16 @@ MYSQL_PORT_VALUE="${MYSQL_PORT:-3306}"
 temp_dir=$(mktemp -d)
 trap 'rm -rf "$temp_dir"' EXIT
 
+template_path="$PROJECT_DIR/n8n-workflows/Add_Event_Schulolympiade_SQL.json"
+if [ ! -f "$template_path" ]; then
+    echo "❌ Workflow template not found at: $template_path"
+    exit 1
+fi
+
 workflow_file="$temp_dir/workflow.json"
 credentials_file="$temp_dir/credentials.json"
 
-python - "$PROJECT_DIR/n8n-workflows/Add_Event_Schulolympiade_SQL.json" "$workflow_file" "$SERVER_HOST" "$SUCCESS_EVENT_PORT" "$N8N_EVENT_WEBHOOK_ID" <<'PY'
+python - "$template_path" "$workflow_file" "$SERVER_HOST" "$SUCCESS_EVENT_PORT" "$N8N_EVENT_WEBHOOK_ID" <<'PY'
 import json
 import sys
 
