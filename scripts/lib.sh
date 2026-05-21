@@ -23,9 +23,26 @@ create_env_file() {
 
 load_env() {
     ensure_env_file
-    set -a
-    source "$PROJECT_DIR/.env"
-    set +a
+    local line key value env_file
+    env_file="$PROJECT_DIR/.env"
+
+    while IFS= read -r line || [ -n "$line" ]; do
+        line="${line%$'\r'}"
+        [[ -z "$line" || "$line" =~ ^[[:space:]]*# ]] && continue
+        [[ "$line" != *=* ]] && continue
+
+        key="${line%%=*}"
+        value="${line#*=}"
+
+        key="${key#"${key%%[![:space:]]*}"}"
+        key="${key%"${key##*[![:space:]]}"}"
+
+        if [[ ! "$key" =~ ^[A-Za-z_][A-Za-z0-9_]*$ ]]; then
+            continue
+        fi
+
+        export "$key=$value"
+    done < "$env_file"
 }
 
 update_env_value() {
