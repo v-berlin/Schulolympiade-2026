@@ -34,7 +34,8 @@ update_env_value() {
     local file="$PROJECT_DIR/.env"
 
     if grep -q "^${key}=" "$file"; then
-        sed -i "s|^${key}=.*|${key}=${value}|" "$file"
+        sed -i.bak "s|^${key}=.*|${key}=${value}|" "$file"
+        rm -f "${file}.bak"
     else
         echo "${key}=${value}" >> "$file"
     fi
