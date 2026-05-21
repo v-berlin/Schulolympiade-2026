@@ -110,11 +110,11 @@ PY
 echo "⏳ Waiting for n8n database..."
 attempts=30
 until docker compose exec -T postgres pg_isready -U "$N8N_POSTGRES_USER" -d "$N8N_POSTGRES_DB" >/dev/null 2>&1; do
-    attempts=$((attempts - 1))
     if [ "$attempts" -le 0 ]; then
         echo "❌ PostgreSQL is not ready for n8n import."
         exit 1
     fi
+    attempts=$((attempts - 1))
     sleep 2
 done
 
